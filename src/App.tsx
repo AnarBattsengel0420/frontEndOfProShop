@@ -4,7 +4,11 @@ import { BrowserRouter } from "react-router-dom";
 const App: React.FC = () => {
   return (
     <BrowserRouter>
-      <ConfigProvider></ConfigProvider>
+      <ConfigProvider
+        theme={{
+          components: {},
+        }}
+      ></ConfigProvider>
     </BrowserRouter>
   );
 };
