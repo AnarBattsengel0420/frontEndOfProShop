@@ -1,5 +1,10 @@
 import { createContext, useEffect, useReducer } from "react";
-import { AuthContextType, AuthProviderProps, ReducerType } from "./type";
+import {
+  AuthActionTypes,
+  AuthContextType,
+  AuthProviderProps,
+  ReducerType,
+} from "./type";
 
 const AuthContext = createContext<AuthContextType>([
   { authorized: false, init: false, user: null },
@@ -14,18 +19,24 @@ const initialState = {
 
 const reducer: ReducerType = (state: any, action: any) => {
   switch (action.type) {
-    case "LOGIN":
+    case AuthActionTypes.LOGIN:
       return {
         ...state,
         authorized: true,
         init: true,
         user: action.payload,
       };
-    case "LOGOUT":
+    case AuthActionTypes.LOGOUT:
       return {
         authorized: false,
         init: true,
         user: null,
+      };
+    case AuthActionTypes.LOGOUT:
+      return {
+        ...state,
+        authorized: false,
+        init: true,
       };
     default:
       return state;
