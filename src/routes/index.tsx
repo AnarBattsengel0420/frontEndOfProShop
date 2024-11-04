@@ -34,7 +34,7 @@ const MainRoutes: React.FC = () => {
           {}
         </Route>
       ))}
-      <Route key={"root"} path="*" element={<div>Hello</div>} />
+      <Route key={"root"} path="*" element={<div>Hello admin dashboard</div>} />
     </Routes>
   );
 };
