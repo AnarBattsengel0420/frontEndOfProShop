@@ -1,5 +1,5 @@
 const AuthPage: React.FC = () => {
-  return <div>Auth Page</div>;
+  return <div>Login Page</div>;
 };
 
 export default AuthPage;

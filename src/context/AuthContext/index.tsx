@@ -6,7 +6,7 @@ import {
   ReducerType,
 } from "./type";
 
-const AuthContext = createContext<AuthContextType>([
+export const AuthContext = createContext<AuthContextType>([
   { authorized: false, init: false, user: null },
   () => {},
 ]);
