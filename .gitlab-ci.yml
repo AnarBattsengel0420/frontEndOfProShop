@@ -1,18 +1,5 @@
 stages:
-  - build
   - deploy
-
-build:
-  stage: build
-  image: docker:latest
-  services:
-    - docker:dind
-  before_script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
-    - echo "Building $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME"
-  script:
-    - docker build -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME" .
-    - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME"
 
 deploy:
   only:
