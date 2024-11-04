@@ -7,11 +7,11 @@ deploy:
   stage: deploy
   when: always
   script:
-    - sudo docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
-    - sudo docker build -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME" .
-    - sudo docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME"
-    - CONTAINERS=$(sudo docker ps -a -q --filter ancestor="$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME")
-    - sudo docker image prune -f
-    - sudo docker run -d -p 3000:80 "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME"
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
+    - docker build -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME" .
+    - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME"
+    - CONTAINERS=$(docker ps -a -q --filter ancestor="$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME")
+    - docker image prune -f
+    - docker run -d -p 3000:80 "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME"
   tags:
     - news
