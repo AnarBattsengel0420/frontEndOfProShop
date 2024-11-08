@@ -1,10 +1,12 @@
+import { PageLoading } from "@ant-design/pro-layout";
+import { ErrorBoundary } from "@ant-design/pro-utils";
 import { AuthContext } from "context/AuthContext";
-import { useContext } from "react";
-import { Route, Routes } from "react-router-dom";
-import { dashboardRoutes } from "./dashboard";
-import DashboardLayout from "layout/dashboard";
 import AuthLayout from "layout/auth";
+import DashboardLayout from "layout/dashboard";
+import { Suspense, useContext } from "react";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { authRoutes } from "./auth";
+import { dashboardRoutes } from "./dashboard";
 
 const MainRoutes: React.FC = () => {
   const [user] = useContext(AuthContext);
@@ -18,7 +20,7 @@ const MainRoutes: React.FC = () => {
     },
   ];
 
-  if (!user) {
+  if (!user.authorized) {
     routes.push({
       key: "auth",
       path: "/auth",
@@ -30,11 +32,39 @@ const MainRoutes: React.FC = () => {
   return (
     <Routes>
       {routes.map((route) => (
-        <Route key={route.key} path={route.path} element={route.element}>
-          {}
+        <Route
+          key={route.key}
+          path={route.path}
+          element={
+            <ErrorBoundary>
+              <Suspense fallback={<PageLoading />}>{route.element}</Suspense>
+            </ErrorBoundary>
+          }
+        >
+          {route.children?.map((path) => (
+            <Route
+              key={path.key}
+              path={path.path}
+              element={
+                <ErrorBoundary>
+                  <Suspense fallback={<PageLoading />}>{path.element}</Suspense>
+                </ErrorBoundary>
+              }
+            />
+          ))}
         </Route>
       ))}
-      <Route key={"root"} path="*" element={<div>Hello admin dashboard</div>} />
+      <Route
+        key={"root"}
+        path="*"
+        element={
+          user?.authorized ? (
+            <Navigate to="dashboard/dashboard" />
+          ) : (
+            <Navigate to="auth/login" />
+          )
+        }
+      />
     </Routes>
   );
 };

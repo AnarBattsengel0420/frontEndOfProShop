@@ -5,38 +5,37 @@ import {
   AuthProviderProps,
   ReducerType,
 } from "./type";
+import { PageLoading } from "@ant-design/pro-layout";
 
 export const AuthContext = createContext<AuthContextType>([
-  { authorized: false, init: false, user: null },
+  { authorized: true, init: false, user: null },
   () => {},
 ]);
 
 const initialState = {
-  authorized: false,
+  authorized: true,
   init: false,
   user: null,
 };
 
-const reducer: ReducerType = (state: any, action: any) => {
+const reducer: ReducerType = (state, action) => {
   switch (action.type) {
     case AuthActionTypes.LOGIN:
       return {
         ...state,
         authorized: true,
-        init: true,
         user: action.payload,
       };
-    case AuthActionTypes.LOGOUT:
+    case AuthActionTypes.INIT:
       return {
-        authorized: false,
-        init: true,
-        user: null,
+        ...state,
+        init: action.payload,
       };
     case AuthActionTypes.LOGOUT:
       return {
         ...state,
         authorized: false,
-        init: true,
+        user: null,
       };
     default:
       return state;
@@ -48,12 +47,13 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   useEffect(() => {
     const user = localStorage.getItem("user");
     if (user) {
-      dispatch({ type: "LOGIN", payload: JSON.parse(user) });
+      dispatch({ type: AuthActionTypes.LOGIN, payload: JSON.parse(user) });
+      dispatch({ type: AuthActionTypes.INIT, payload: JSON.parse(user) });
     }
   }, []);
   return (
     <AuthContext.Provider value={[state, dispatch]}>
-      {children}
+      {!state.init ? <PageLoading /> : children}
     </AuthContext.Provider>
   );
 };
