@@ -6,14 +6,18 @@ import {
   ReducerType,
 } from "./type";
 import { PageLoading } from "@ant-design/pro-layout";
+import { useRequest } from "ahooks";
+import auth from "api/auth";
+import { notification } from "antd";
+import { useLocation, useParams } from "react-router-dom";
 
 export const AuthContext = createContext<AuthContextType>([
-  { authorized: true, init: false, user: null },
+  { authorized: false, init: false, user: null },
   () => {},
 ]);
 
 const initialState = {
-  authorized: true,
+  authorized: false,
   init: false,
   user: null,
 };
@@ -25,6 +29,7 @@ const reducer: ReducerType = (state, action) => {
         ...state,
         authorized: true,
         user: action.payload,
+        init: false,
       };
     case AuthActionTypes.INIT:
       return {
@@ -36,6 +41,7 @@ const reducer: ReducerType = (state, action) => {
         ...state,
         authorized: false,
         user: null,
+        init: false,
       };
     default:
       return state;
@@ -44,16 +50,43 @@ const reducer: ReducerType = (state, action) => {
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const location = useLocation();
+  const userInfo = useRequest(auth.info, {
+    manual: true,
+    onSuccess: (result) => {
+      dispatch({
+        type: AuthActionTypes.INIT,
+        payload: true,
+      });
+      dispatch({
+        type: AuthActionTypes.LOGIN,
+        payload: result,
+      });
+    },
+    onError: () => {
+      notification.error({
+        message: "Алдаа гарлаа",
+        description: "Хэрэглэгчийн мэдээлэл авч чадахгүй байна",
+      });
+      dispatch({
+        type: AuthActionTypes.INIT,
+        payload: true,
+      });
+      dispatch({
+        type: AuthActionTypes.LOGOUT,
+        payload: null,
+      });
+      auth.removeToken();
+    },
+  });
   useEffect(() => {
-    const user = localStorage.getItem("user");
-    if (user) {
-      dispatch({ type: AuthActionTypes.LOGIN, payload: JSON.parse(user) });
-      dispatch({ type: AuthActionTypes.INIT, payload: JSON.parse(user) });
+    if (!location.pathname.includes("auth")) {
+      userInfo.run();
     }
   }, []);
   return (
     <AuthContext.Provider value={[state, dispatch]}>
-      {!state.init ? <PageLoading /> : children}
+      {state.init ? <PageLoading /> : children}
     </AuthContext.Provider>
   );
 };

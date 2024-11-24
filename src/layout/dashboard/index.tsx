@@ -4,7 +4,7 @@ import auth from "api/auth";
 import { AuthContext } from "context/AuthContext";
 import { AuthActionTypes } from "context/AuthContext/type";
 import { useContext } from "react";
-import { Link, Navigate, Outlet } from "react-router-dom";
+import { Link, Navigate, Outlet, useLocation } from "react-router-dom";
 import { BookOpen01, Logout01 } from "untitledui-js-base";
 import menuData from "./menu";
 
@@ -18,6 +18,8 @@ const Logo = () => {
 
 const DashboardLayout: React.FC = () => {
   const [user, dispatch] = useContext(AuthContext);
+  const location = useLocation();
+
   if (!user.authorized) {
     return <Navigate to="/auth/login" />;
   }
@@ -44,7 +46,9 @@ const DashboardLayout: React.FC = () => {
           return menuData;
         },
       }}
-      selectedKeys={[location.pathname]}
+      location={{
+        pathname: location.pathname,
+      }}
       siderWidth={300}
       stylish={{}}
       fixSiderbar={true}

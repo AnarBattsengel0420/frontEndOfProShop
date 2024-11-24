@@ -1,12 +1,12 @@
 import { decryptWithAES, encryptWithAES } from "utils/parse";
 import http from "..";
 import { Admin, LoginData, LoginResponse } from "./type";
-const tokenKey = "burtgel.token";
+const tokenKey = "newsadmin.token";
 const userKey = "app.user";
 
 namespace auth {
-  export const login = (body?: any) =>
-    http.post<LoginResponse>("auth/login", {
+  export const login = (body?: LoginData) =>
+    http.post<LoginResponse>("admin/auth/login", {
       body,
     });
 
@@ -18,7 +18,8 @@ namespace auth {
   export const removeToken = () => localStorage.removeItem(tokenKey);
   export const getToken = () => localStorage.getItem(tokenKey);
 
-  export const info = () => http.get<Admin>("auth/info", { hasAuth: true });
+  export const info = () =>
+    http.get<Admin>("admin/auth/info", { hasAuth: true });
 
   export const rememberUser = (values: LoginData) => {
     if (values.remember) {

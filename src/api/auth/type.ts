@@ -3,12 +3,12 @@
 export interface LoginData {
   email: string;
   password: string;
-  remember: boolean;
+  remember?: boolean;
 }
 
 export interface LoginResponse {
   token: string;
-  employee: Admin;
+  user: Admin;
 }
 
 export interface Admin {
