@@ -8,7 +8,7 @@ COPY yarn.lock .
 
 RUN yarn
 
-COPY . /src
+COPY . .
 
 RUN yarn build
 
