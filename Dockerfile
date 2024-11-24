@@ -1,4 +1,4 @@
-FROM node:20 AS builder
+FROM node:20-alpine AS builder
 
 # WORKDIR ni docker container dotor bichigdene
 WORKDIR /src
@@ -10,7 +10,7 @@ RUN yarn
 
 COPY . .
 
-RUN yarn build
+RUN NODE_OPTIONS="--max-old-space-size=2048" yarn build
 
 FROM nginx:alpine
 # from gedeg ni nodiin neriig helj baigaa 
