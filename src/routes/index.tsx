@@ -20,7 +20,7 @@ const MainRoutes: React.FC = () => {
     },
   ];
 
-  if (!user.authorized) {
+  if (!user?.authorized) {
     routes.push({
       key: "auth",
       path: "/auth",

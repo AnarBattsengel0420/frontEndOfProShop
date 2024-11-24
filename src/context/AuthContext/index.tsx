@@ -29,7 +29,6 @@ const reducer: ReducerType = (state, action) => {
         ...state,
         authorized: true,
         user: action.payload,
-        init: false,
       };
     case AuthActionTypes.INIT:
       return {
@@ -41,7 +40,6 @@ const reducer: ReducerType = (state, action) => {
         ...state,
         authorized: false,
         user: null,
-        init: false,
       };
     default:
       return state;
@@ -86,7 +84,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, []);
   return (
     <AuthContext.Provider value={[state, dispatch]}>
-      {state.init ? <PageLoading /> : children}
+      {!state.init ? <PageLoading /> : children}
     </AuthContext.Provider>
   );
 };
