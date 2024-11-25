@@ -1,6 +1,8 @@
 import {
   DrawerForm,
   ProFormDatePicker,
+  ProFormSelect,
+  ProFormSwitch,
   ProFormText,
   ProFormUploadButton,
 } from "@ant-design/pro-form";
@@ -21,7 +23,7 @@ export const CreateUser: React.FC<CreateUserProps> = ({ open, onClose }) => {
         render: (props) => {
           return (
             <div className="flex items-center gap-4">
-              <Button size="large" onClick={props.reset} type="default">
+              <Button size="large" onClick={onClose} type="default">
                 Болих
               </Button>
               <Button size="large" type="primary" onClick={props.submit}>
@@ -75,7 +77,7 @@ export const CreateUser: React.FC<CreateUserProps> = ({ open, onClose }) => {
         </Col>
         <Col xl={10}>
           <ProFormUploadButton
-            label="Зураг"
+            label="Нүүр зураг"
             name="profile"
             title="Зураг оруулах"
             max={1}
@@ -170,6 +172,89 @@ export const CreateUser: React.FC<CreateUserProps> = ({ open, onClose }) => {
                 required: true,
                 message: "Төрсөн өдөр оруулна уу",
               },
+            ]}
+            fieldProps={{
+              size: "large",
+            }}
+          />
+        </Col>
+      </Row>
+      <Row gutter={[24, 24]}>
+        <Col xl={12}>
+          <ProFormSelect
+            name="user_role"
+            label="Хэрэглэгчийн эрх"
+            rules={[
+              {
+                required: true,
+                message: "Хэрэглэгчийн эрх сонгоно уу",
+              },
+            ]}
+            options={[
+              {
+                label: "Админ",
+                value: "admin",
+              },
+              {
+                label: "Хэрэглэгч",
+                value: "user",
+              },
+            ]}
+            fieldProps={{
+              size: "large",
+            }}
+          />
+        </Col>
+      </Row>
+      <Row gutter={[24, 24]}>
+        <Col xl={24}>
+          <ProFormSwitch name="is_active" label="Идэвхтэй эсэх" />
+        </Col>
+      </Row>
+      <Row gutter={[24, 24]}>
+        <Col xl={12}>
+          <ProFormSwitch name="is_verified" label="Баталгаажуулсан эсэх" />
+        </Col>
+      </Row>
+      <Row gutter={[24, 24]}>
+        <Col xl={12}>
+          <ProFormText.Password
+            name="password"
+            label="Нууц үг"
+            rules={[
+              {
+                required: true,
+                message: "Нууц үг оруулна уу",
+              },
+              {
+                pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
+                message:
+                  "Нууц үг 8-аас дээш урттай байх, том жижиг үсэгтэй байх, тоо агуулсан байх ёстой",
+              },
+            ]}
+            fieldProps={{
+              size: "large",
+            }}
+          />
+        </Col>
+        <Col xl={12}>
+          <ProFormText.Password
+            name="confirm_password"
+            label="Нууц үг давтах"
+            dependencies={["password"]}
+            rules={[
+              {
+                required: true,
+                message: "Нууц үг давтах оруулна уу",
+              },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue("password") === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject("Нууц үг таарахгүй байна");
+                },
+              }),
             ]}
             fieldProps={{
               size: "large",

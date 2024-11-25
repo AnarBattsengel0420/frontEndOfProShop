@@ -11,6 +11,7 @@ const App: React.FC = () => {
         <ConfigProvider
           theme={{
             token: {
+              fontFamily: "Inter, sans-serif",
               colorPrimary: "#212e42",
               colorLink: "#1890ff",
             },
