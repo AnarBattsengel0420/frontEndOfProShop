@@ -1,3 +1,6 @@
+import { PageLoading } from "@ant-design/pro-layout";
+import { useRequest } from "ahooks";
+import auth from "api/auth";
 import { createContext, useEffect, useReducer } from "react";
 import {
   AuthActionTypes,
@@ -5,11 +8,6 @@ import {
   AuthProviderProps,
   ReducerType,
 } from "./type";
-import { PageLoading } from "@ant-design/pro-layout";
-import { useRequest } from "ahooks";
-import auth from "api/auth";
-import { notification } from "antd";
-import { useLocation, useParams } from "react-router-dom";
 
 export const AuthContext = createContext<AuthContextType>([
   { authorized: false, init: false, user: null },
@@ -19,7 +17,7 @@ export const AuthContext = createContext<AuthContextType>([
 const initialState = {
   authorized: false,
   init: false,
-  user: null,
+  user: undefined,
 };
 
 const reducer: ReducerType = (state, action) => {
@@ -48,43 +46,33 @@ const reducer: ReducerType = (state, action) => {
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const location = useLocation();
   const userInfo = useRequest(auth.info, {
     manual: true,
     onSuccess: (result) => {
       dispatch({
-        type: AuthActionTypes.INIT,
-        payload: true,
-      });
-      dispatch({
         type: AuthActionTypes.LOGIN,
         payload: result,
       });
-    },
-    onError: () => {
-      notification.error({
-        message: "Алдаа гарлаа",
-        description: "Хэрэглэгчийн мэдээлэл авч чадахгүй байна",
-      });
       dispatch({
         type: AuthActionTypes.INIT,
         payload: true,
       });
+    },
+    onError: () => {
       dispatch({
         type: AuthActionTypes.LOGOUT,
         payload: null,
       });
+      dispatch({
+        type: AuthActionTypes.INIT,
+        payload: true,
+      });
       auth.removeToken();
     },
   });
+
   useEffect(() => {
-    if (!location.pathname.includes("auth")) {
-      userInfo.run();
-    }
-    dispatch({
-      type: AuthActionTypes.INIT,
-      payload: true,
-    });
+    userInfo.run();
   }, []);
   return (
     <AuthContext.Provider value={[state, dispatch]}>

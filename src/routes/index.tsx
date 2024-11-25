@@ -1,15 +1,15 @@
 import { PageLoading } from "@ant-design/pro-layout";
 import { ErrorBoundary } from "@ant-design/pro-utils";
-import { AuthContext } from "context/AuthContext";
+import { useAuthContext } from "hook/useAuthContext";
 import AuthLayout from "layout/auth";
 import DashboardLayout from "layout/dashboard";
-import { Suspense, useContext } from "react";
+import { Suspense } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { authRoutes } from "./auth";
 import { dashboardRoutes } from "./dashboard";
 
 const MainRoutes: React.FC = () => {
-  const [user] = useContext(AuthContext);
+  const [user] = useAuthContext();
 
   const routes = [
     {
