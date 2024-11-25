@@ -3,7 +3,7 @@ FROM node:20 AS builder
 # WORKDIR ni docker container dotor bichigdene
 WORKDIR /src
 
-COPY package*.json .
+COPY package.json .
 COPY yarn.lock .
 
 RUN yarn

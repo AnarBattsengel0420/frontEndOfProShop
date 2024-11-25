@@ -81,6 +81,10 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     if (!location.pathname.includes("auth")) {
       userInfo.run();
     }
+    dispatch({
+      type: AuthActionTypes.INIT,
+      payload: true,
+    });
   }, []);
   return (
     <AuthContext.Provider value={[state, dispatch]}>
