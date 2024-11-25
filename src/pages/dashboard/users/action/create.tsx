@@ -6,7 +6,11 @@ import {
   ProFormText,
   ProFormUploadButton,
 } from "@ant-design/pro-form";
-import { Button, Col, Row } from "antd";
+import { useRequest } from "ahooks";
+import { Button, Col, notification, Row } from "antd";
+import file from "api/file";
+import users from "api/users";
+import moment from "moment";
 
 type CreateUserProps = {
   open: boolean;
@@ -14,10 +18,54 @@ type CreateUserProps = {
 };
 
 export const CreateUser: React.FC<CreateUserProps> = ({ open, onClose }) => {
+  const user = useRequest(users.create, {
+    manual: true,
+    onSuccess: () => {
+      notification.success({
+        message: "Амжилттай",
+        description: "Хэрэглэгч амжилттай бүртгэгдлээ",
+      });
+      onClose?.();
+    },
+    onError: (error) => {
+      notification.error({
+        message: "Алдаа",
+        description: error?.message,
+      });
+      onClose?.();
+    },
+  });
+
+  const upload = useRequest(file.upload, {
+    manual: true,
+    onSuccess: () => {
+      notification.success({
+        message: "Амжилттай",
+        description: "Зураг амжилттай хадгалагдлаа",
+      });
+    },
+    onError: (error) => {
+      notification.error({
+        message: "Алдаа",
+        description: error?.message,
+      });
+    },
+  });
   return (
     <DrawerForm
       width={600}
       open={open}
+      onFinish={async (values) => {
+        console.log(values);
+        const profile = await upload.runAsync({
+          file: values.profile_id[0]?.originFileObj,
+        });
+        await user.runAsync({
+          ...values,
+          profile_id: profile[0]?.id,
+          birth_date: moment(values?.birth_date).toDate(),
+        });
+      }}
       title={<div className="text-xl">Хэрэглэгч нэмэх</div>}
       submitter={{
         render: (props) => {
@@ -34,6 +82,11 @@ export const CreateUser: React.FC<CreateUserProps> = ({ open, onClose }) => {
         },
       }}
       drawerProps={{
+        styles: {
+          body: {
+            background: "#f7fafc",
+          },
+        },
         destroyOnClose: true,
         onClose: onClose,
       }}
@@ -67,6 +120,10 @@ export const CreateUser: React.FC<CreateUserProps> = ({ open, onClose }) => {
                     required: true,
                     message: "Цахим хаягаа оруулна уу",
                   },
+                  {
+                    type: "email",
+                    message: "Цахим хаяг буруу байна",
+                  },
                 ]}
                 fieldProps={{
                   size: "large",
@@ -78,7 +135,7 @@ export const CreateUser: React.FC<CreateUserProps> = ({ open, onClose }) => {
         <Col xl={10}>
           <ProFormUploadButton
             label="Нүүр зураг"
-            name="profile"
+            name="profile_id"
             title="Зураг оруулах"
             max={1}
             rules={[
@@ -157,6 +214,10 @@ export const CreateUser: React.FC<CreateUserProps> = ({ open, onClose }) => {
                 required: true,
                 message: "Утас оруулна уу",
               },
+              {
+                pattern: /^([0-9]{8,10})$/,
+                message: "Утас буруу байна",
+              },
             ]}
             fieldProps={{
               size: "large",
@@ -182,7 +243,7 @@ export const CreateUser: React.FC<CreateUserProps> = ({ open, onClose }) => {
       <Row gutter={[24, 24]}>
         <Col xl={12}>
           <ProFormSelect
-            name="user_role"
+            name="role"
             label="Хэрэглэгчийн эрх"
             rules={[
               {
@@ -255,6 +316,11 @@ export const CreateUser: React.FC<CreateUserProps> = ({ open, onClose }) => {
                   return Promise.reject("Нууц үг таарахгүй байна");
                 },
               }),
+              {
+                pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
+                message:
+                  "Нууц үг 8-аас дээш урттай байх, том жижиг үсэгтэй байх, тоо агуулсан байх ёстой",
+              },
             ]}
             fieldProps={{
               size: "large",

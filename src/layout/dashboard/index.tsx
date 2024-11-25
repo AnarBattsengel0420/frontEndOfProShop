@@ -19,7 +19,7 @@ const Logo = () => {
 const DashboardLayout: React.FC = () => {
   const [user, dispatch] = useContext(AuthContext);
   const location = useLocation();
-
+  console.log(user, "Kkkk");
   if (!user?.authorized) {
     return <Navigate to="/auth/login" />;
   }
@@ -37,7 +37,7 @@ const DashboardLayout: React.FC = () => {
       )}
       contentStyle={{
         margin: 0,
-        background: "#ebf2fc",
+        background: "#f7fafc",
         minHeight: "100vh",
         fontFamily: "Inter, sans-serif",
       }}

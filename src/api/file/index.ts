@@ -8,18 +8,14 @@ import {
 import http from "..";
 
 namespace file {
-  export const upload = async ({
-    file,
-    onUploadProgress,
-  }: SingleFileUpload) => {
+  export const upload = async ({ file }: SingleFileUpload) => {
     const body = new FormData();
 
     body.append("file", file);
 
-    return http.post<FileRecord[]>("/upload/files", {
+    return http.post<FileRecord[]>("upload/files", {
       body,
       hasAuth: true,
-      onUploadProgress: onUploadProgress,
     });
   };
 
