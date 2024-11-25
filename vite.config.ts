@@ -8,4 +8,15 @@ export default defineConfig({
     alias: [{ find: /^~/, replacement: "" }],
   },
   plugins: [react(), tsconfigPaths()],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes("@ant-design/pro-form")) {
+            return "pro-form";
+          }
+        },
+      },
+    },
+  },
 });
