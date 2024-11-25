@@ -1,0 +1,5 @@
+.ant-upload-wrapper.ant-upload-picture-card-wrapper
+  .ant-upload.ant-upload-select {
+  width: 190px !important;
+  height: 140px !important;
+}
