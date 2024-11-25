@@ -13,6 +13,6 @@ deploy:
     - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME"
     - docker ps --quiet --filter="name=news" | xargs --no-run-if-empty docker rm -f
     - docker image prune -f
-    - docker run -d -p 3000:80 "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME --name news"
+    - docker run -d -p 3000:80 --name news "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME"
   tags:
     - news
