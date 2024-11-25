@@ -1,10 +1,9 @@
-FROM node:20 AS builder
+FROM node:18-alpine AS builder
 
 # WORKDIR ni docker container dotor bichigdene
 WORKDIR /src
 
-COPY package.json .
-COPY yarn.lock .
+COPY package.json yarn.lock ./
 
 RUN yarn
 
