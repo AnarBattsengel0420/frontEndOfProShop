@@ -13,7 +13,7 @@ namespace users {
     });
 
   export const list = (params: any) =>
-    http.get<any>("admin/users/list", {
+    http.post<any>("admin/users/list", {
       hasAuth: true,
       params,
     });

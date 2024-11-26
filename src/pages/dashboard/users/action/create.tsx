@@ -15,9 +15,14 @@ import moment from "moment";
 type CreateUserProps = {
   open: boolean;
   onClose: () => void;
+  onFinish?: () => void;
 };
 
-export const CreateUser: React.FC<CreateUserProps> = ({ open, onClose }) => {
+export const CreateUser: React.FC<CreateUserProps> = ({
+  open,
+  onClose,
+  onFinish,
+}) => {
   const user = useRequest(users.create, {
     manual: true,
     onSuccess: () => {
@@ -25,7 +30,7 @@ export const CreateUser: React.FC<CreateUserProps> = ({ open, onClose }) => {
         message: "Амжилттай",
         description: "Хэрэглэгч амжилттай бүртгэгдлээ",
       });
-      onClose?.();
+      onFinish?.();
     },
     onError: (error) => {
       notification.error({

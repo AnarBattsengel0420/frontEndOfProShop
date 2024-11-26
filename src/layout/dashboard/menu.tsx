@@ -9,19 +9,19 @@ import {
 const menuData: MenuDataItem[] = [
   {
     path: "/dashboard/dashboard",
-    name: "Dashboard",
+    name: "Хянах самбар",
     icon: <BarChartSquare02 size="28" />,
     children: [],
   },
   {
     path: "/dashboard/users",
-    name: "Users",
+    name: "Хэрэглэгчдийн удирдлага",
     icon: <Users01 size="28" />,
     children: [],
   },
   {
     path: "/dashboard/settings",
-    name: "Settings",
+    name: "Тохиргоо",
     icon: <Settings01 size="28" />,
     children: [],
   },
