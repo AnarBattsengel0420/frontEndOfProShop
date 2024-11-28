@@ -7,6 +7,7 @@ import { useContext } from "react";
 import { Link, Navigate, Outlet, useLocation } from "react-router-dom";
 import { BookOpen01, Logout01 } from "untitledui-js-base";
 import menuData from "./menu";
+import file from "api/file";
 
 const Logo = () => {
   return (
@@ -70,11 +71,15 @@ const DashboardLayout: React.FC = () => {
         return (
           <div className="m-4 flex items-center justify-between text-white font-semibold">
             <div className="flex items-center gap-3">
-              <Avatar size={50} src={user?.user?.file?.physicalPath}>
-                IM
+              <Avatar
+                size={50}
+                src={file.fileToUrl(user?.user?.file?.physicalPath)}
+                className="uppercase"
+              >
+                {user?.user?.username?.substring(0, 2)}
               </Avatar>
               <div className="flex flex-col gap-2">
-                <div>{user?.user?.firstName}</div>
+                <div>{user?.user?.first_name}</div>
                 <div>{user?.user?.phone}</div>
               </div>
             </div>

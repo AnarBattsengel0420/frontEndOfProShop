@@ -7,9 +7,14 @@ import { useEffect, useState } from "react";
 import { Edit01, Plus, RefreshCW02, Trash01 } from "untitledui-js-base";
 import { CreateUser } from "./action/create";
 import file from "api/file";
+import { UpdateUser } from "./action/update";
+import { DeleteUser } from "./action/delete";
 
 const UserPage: React.FC = () => {
   const [create, setCreate] = useState<boolean>(false);
+  const [update, setUpdate] = useState<any>(undefined);
+  const [deleteUser, setDelete] = useState<any>(undefined);
+
   const usersList = useRequest(users.list, {
     manual: true,
     onError: (error) => {
@@ -19,6 +24,7 @@ const UserPage: React.FC = () => {
       });
     },
   });
+  console.log(deleteUser, "Ll");
 
   useEffect(() => {
     usersList.run({});
@@ -116,7 +122,7 @@ const UserPage: React.FC = () => {
               size="20"
               className="cursor-pointer"
               onClick={() => {
-                console.log("Edit", record);
+                setUpdate(record);
               }}
             />
             <Trash01
@@ -124,7 +130,8 @@ const UserPage: React.FC = () => {
               size="20"
               className="cursor-pointer"
               onClick={() => {
-                console.log("Delete", record);
+                console.log("sdaaa");
+                setDelete(record);
               }}
             />
           </div>
@@ -184,6 +191,30 @@ const UserPage: React.FC = () => {
           }}
           onClose={() => {
             setCreate(false);
+          }}
+        />
+      )}
+      {update && (
+        <UpdateUser
+          data={update}
+          onClose={() => {
+            setUpdate(undefined);
+          }}
+          onFinish={() => {
+            refreshList();
+            setUpdate(undefined);
+          }}
+        />
+      )}
+      {deleteUser && (
+        <DeleteUser
+          data={deleteUser}
+          onClose={() => {
+            setDelete(undefined);
+          }}
+          onFinish={() => {
+            refreshList();
+            setDelete(undefined);
           }}
         />
       )}

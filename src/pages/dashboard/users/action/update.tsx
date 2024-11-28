@@ -10,25 +10,26 @@ import { useRequest } from "ahooks";
 import { Button, Col, notification, Row } from "antd";
 import file from "api/file";
 import users from "api/users";
-import moment from "moment";
+import { UsersType } from "api/users/types";
+import moment, { updateLocale } from "moment";
 
-type CreateUserProps = {
-  open: boolean;
+type UpdateUserProps = {
+  data: UsersType;
   onClose: () => void;
   onFinish?: () => void;
 };
 
-export const CreateUser: React.FC<CreateUserProps> = ({
-  open,
+export const UpdateUser: React.FC<UpdateUserProps> = ({
+  data,
   onClose,
   onFinish,
 }) => {
-  const user = useRequest(users.create, {
+  const user = useRequest(users.update, {
     manual: true,
     onSuccess: () => {
       notification.success({
         message: "Амжилттай",
-        description: "Хэрэглэгч амжилттай бүртгэгдлээ",
+        description: "Хэрэглэгч мэдээлэл амжилттай засагдлаа ",
       });
       onFinish?.();
     },
@@ -56,22 +57,46 @@ export const CreateUser: React.FC<CreateUserProps> = ({
       });
     },
   });
+
+  const updateUpload = async (file: any) => {
+    if (!file) return null;
+    const id = file?.uid?.toString();
+    if (id?.includes("rc-upload")) {
+      const profile = await upload.runAsync({
+        file: file?.originFileObj,
+      });
+      return profile[0]?.id;
+    }
+    return file?.uid;
+  };
   return (
     <DrawerForm
+      initialValues={{
+        ...data,
+        birth_date: moment(data?.birth_date).toDate(),
+        profile_id: [
+          {
+            uid: data?.profile_id,
+            name: data?.profile?.file_name,
+            status: "done",
+            url: file.fileToUrl(data?.profile?.physical_path),
+            type: "image/jpeg",
+          },
+        ],
+      }}
       width={600}
-      open={open}
+      open={!!data}
       onFinish={async (values) => {
-        console.log(values);
-        const profile = await upload.runAsync({
-          file: values.profile_id[0]?.originFileObj,
-        });
-        await user.runAsync({
+        const profile_id = await updateUpload(values?.profile_id[0]);
+
+        console.log(profile_id, "sda");
+        await user.runAsync(data?.id, {
           ...values,
-          profile_id: profile[0]?.id,
+          profile_id: profile_id,
           birth_date: moment(values?.birth_date).toDate(),
         });
       }}
-      title={<div className="text-xl">Хэрэглэгч нэмэх</div>}
+      title={<div className="text-xl">Хэрэглэгч засах</div>}
       submitter={{
         render: (props) => {
           return (
@@ -287,11 +312,11 @@ export const CreateUser: React.FC<CreateUserProps> = ({
             options={[
               {
                 label: "Эр",
-                value: 0,
+                value: 1,
               },
               {
                 label: "Эм",
-                value: 1,
+                value: 2,
               },
             ]}
           />
@@ -307,16 +332,13 @@ export const CreateUser: React.FC<CreateUserProps> = ({
           <ProFormSwitch name="is_verified" label="Баталгаажуулсан эсэх" />
         </Col>
       </Row>
+      <div className="font-semibold mb-4">Нууц үгийн мэдээлэл</div>
       <Row gutter={[24, 24]}>
-        <Col xl={12}>
+        <Col xl={12} span={12}>
           <ProFormText.Password
             name="password"
             label="Нууц үг"
             rules={[
-              {
-                required: true,
-                message: "Нууц үг оруулна уу",
-              },
               {
                 pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
                 message:
@@ -328,16 +350,12 @@ export const CreateUser: React.FC<CreateUserProps> = ({
             }}
           />
         </Col>
-        <Col xl={12}>
+        <Col xl={12} span={12}>
           <ProFormText.Password
             name="confirm_password"
             label="Нууц үг давтах"
             dependencies={["password"]}
             rules={[
-              {
-                required: true,
-                message: "Нууц үг давтах оруулна уу",
-              },
               ({ getFieldValue }) => ({
                 validator(_, value) {
                   if (!value || getFieldValue("password") === value) {

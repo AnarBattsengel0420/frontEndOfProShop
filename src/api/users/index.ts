@@ -1,4 +1,5 @@
 import http from "api";
+import { UsersType } from "./types";
 
 namespace users {
   export const create = (body: any) =>
@@ -13,7 +14,7 @@ namespace users {
     });
 
   export const list = (params: any) =>
-    http.post<any>("admin/users/list", {
+    http.post<UsersType[]>("admin/users/list", {
       hasAuth: true,
       params,
     });
@@ -22,6 +23,11 @@ namespace users {
     http.put<any>(`admin/users/${id}`, {
       hasAuth: true,
       body,
+    });
+
+  export const deleteUser = (id: number) =>
+    http.del<any>(`admin/users/${id}`, {
+      hasAuth: true,
     });
 }
 
