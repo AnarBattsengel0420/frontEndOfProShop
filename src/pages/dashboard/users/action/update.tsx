@@ -89,7 +89,6 @@ export const UpdateUser: React.FC<UpdateUserProps> = ({
       onFinish={async (values) => {
         const profile_id = await updateUpload(values?.profile_id[0]);
 
-        console.log(profile_id, "sda");
         await user.runAsync(data?.id, {
           ...values,
           profile_id: profile_id,
@@ -271,7 +270,7 @@ export const UpdateUser: React.FC<UpdateUserProps> = ({
         </Col>
       </Row>
       <Row gutter={[24, 24]}>
-        <Col xl={12}>
+        <Col xl={12} span={12}>
           <ProFormSelect
             name="role"
             label="Хэрэглэгчийн эрх"
@@ -296,7 +295,7 @@ export const UpdateUser: React.FC<UpdateUserProps> = ({
             }}
           />
         </Col>
-        <Col xl={12}>
+        <Col xl={12} span={12}>
           <ProFormSelect
             name="gender"
             label="Хүйс"

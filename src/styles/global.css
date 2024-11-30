@@ -3,3 +3,7 @@
   width: 190px !important;
   height: 140px !important;
 }
+
+img {
+  max-width: max-content;
+}

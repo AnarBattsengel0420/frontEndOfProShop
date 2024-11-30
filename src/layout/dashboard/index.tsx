@@ -73,13 +73,13 @@ const DashboardLayout: React.FC = () => {
             <div className="flex items-center gap-3">
               <Avatar
                 size={50}
-                src={file.fileToUrl(user?.user?.file?.physicalPath)}
+                src={file.fileToUrl(user?.user?.profile?.physical_path)}
                 className="uppercase"
               >
                 {user?.user?.username?.substring(0, 2)}
               </Avatar>
               <div className="flex flex-col gap-2">
-                <div>{user?.user?.first_name}</div>
+                <div className="uppercase">{user?.user?.first_name}</div>
                 <div>{user?.user?.phone}</div>
               </div>
             </div>

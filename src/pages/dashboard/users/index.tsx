@@ -9,6 +9,9 @@ import { CreateUser } from "./action/create";
 import file from "api/file";
 import { UpdateUser } from "./action/update";
 import { DeleteUser } from "./action/delete";
+import { GenderBadge } from "components/badge/gender";
+import IBadge from "components/badge";
+import { RoleType } from "utils/types";
 
 const UserPage: React.FC = () => {
   const [create, setCreate] = useState<boolean>(false);
@@ -24,7 +27,6 @@ const UserPage: React.FC = () => {
       });
     },
   });
-  console.log(deleteUser, "Ll");
 
   useEffect(() => {
     usersList.run({});
@@ -38,6 +40,7 @@ const UserPage: React.FC = () => {
     {
       title: "№",
       dataIndex: "id",
+      width: 50,
       render: (_, __, index) => {
         return index + 1;
       },
@@ -45,13 +48,15 @@ const UserPage: React.FC = () => {
     {
       title: "",
       key: "avatar",
+      width: 70,
+      align: "center",
       render: (_, record) => {
         return (
           <Avatar
             className="uppercase"
             src={file.fileToUrl(record?.profile?.physical_path)}
           >
-            {record.email.substring(0, 2)}
+            {record?.email.substring(0, 2)}
           </Avatar>
         );
       },
@@ -83,40 +88,74 @@ const UserPage: React.FC = () => {
       key: "last_name",
     },
     {
+      title: "Статус",
+      dataIndex: "role",
+      align: "center",
+      width: 100,
+      renderText: (text) => {
+        if (RoleType.ADMIN === text) {
+          return <IBadge title="Админ" color="blue" />;
+        }
+        return <IBadge title="Хэрэглэгч" color="yellow" />;
+      },
+    },
+    {
       title: "Төрсөн өдөр",
       dataIndex: "birth_date",
       key: "email",
+      render: (_, record) => {
+        return <div>{moment(record?.birth_date).format("YYYY-MM-DD")}</div>;
+      },
     },
     {
       title: "Хүйс",
       dataIndex: "gender",
       key: "email",
+      width: 100,
+      render: (_, record) => {
+        return <GenderBadge status={record?.gender} />;
+      },
     },
     {
       title: "Идэвхтэй эсэх",
       dataIndex: "is_active",
       key: "email",
+      render: (_, record) => {
+        if (record?.is_active) {
+          return <IBadge title="Тийм" color="green" />;
+        }
+        return <IBadge title="Үгүй" color="red" />;
+      },
     },
     {
       title: "Баталгаажуулсан эсэх",
       dataIndex: "is_verified",
       key: "email",
+      render: (_, record) => {
+        if (record?.is_verified) {
+          return <IBadge title="Тийм" color="green" />;
+        }
+        return <IBadge title="Үгүй" color="red" />;
+      },
     },
     {
       title: "Бүртгүүлсэн огноо",
       dataIndex: "created_at",
       render: (_, record) => {
         return (
-          <div>{moment(record.created_at).format("YYYY-MM-DD HH:mm")}</div>
+          <div>{moment(record?.created_at).format("YYYY-MM-DD HH:mm")}</div>
         );
       },
     },
     {
       title: "Үйлдэл",
       valueType: "option",
+      align: "center",
+      fixed: "right",
+      width: 100,
       render: (_, record) => {
         return (
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 justify-center">
             <Edit01
               color="#1890ff"
               size="20"
@@ -130,7 +169,6 @@ const UserPage: React.FC = () => {
               size="20"
               className="cursor-pointer"
               onClick={() => {
-                console.log("sdaaa");
                 setDelete(record);
               }}
             />
@@ -170,8 +208,12 @@ const UserPage: React.FC = () => {
           />,
         ]}
         toolbar={{
-          title: <div>Хэрэглэгчдийн жагсаалт</div>,
-          tooltip: "Хэрэглэгчдийн жагсаалт",
+          title: (
+            <div className="text-lg font-medium text-gray-700">
+              Хэрэглэгчдийн жагсаалт
+            </div>
+          ),
+          tooltip: "Хэрэглэгчдийн жагсаалтын удирдлагийг эндээс хийнэ үү?",
           search: {
             onSearch: (value) => {},
             size: "large",

@@ -1,27 +1,27 @@
 import { ModalForm } from "@ant-design/pro-form";
 import { useRequest } from "ahooks";
 import { notification } from "antd";
-import users from "api/users";
-import { UsersType } from "api/users/types";
+import blogCategory from "api/blog_category";
+import { BlogCategoryType } from "api/blog_category/types";
 
-interface DeleteUserProps {
-  data: UsersType;
+interface DeleteBlogCategoryProps {
+  data: BlogCategoryType;
   onFinish: () => void;
   onClose: () => void;
 }
 
-export const DeleteUser: React.FC<DeleteUserProps> = ({
+export const DeleteBlogCategory: React.FC<DeleteBlogCategoryProps> = ({
   data,
   onFinish,
   onClose,
 }) => {
-  const user = useRequest(users.deleteUser, {
+  const category = useRequest(blogCategory.deleteCategory, {
     manual: true,
     onSuccess: () => {
       onFinish();
       notification.success({
         message: "Амжилттай",
-        description: "Хэрэглэгч амжилттай устгагдлаа",
+        description: "Блогын ангилал амжилттай устгагдлаа",
       });
     },
     onError: (error) => {
@@ -36,10 +36,10 @@ export const DeleteUser: React.FC<DeleteUserProps> = ({
     <ModalForm
       open={!!data}
       width={400}
-      onFinish={async () => await user.runAsync(data?.id)}
+      onFinish={async () => await category.runAsync(data?.id)}
       modalProps={{
         onCancel: onClose,
-        title: "Хэрэглэгч устгах",
+        title: "Блогын ангилал устгах",
         okText: "Устгах",
         okButtonProps: {
           danger: true,
@@ -47,7 +47,7 @@ export const DeleteUser: React.FC<DeleteUserProps> = ({
         cancelText: "Цуцлах",
       }}
     >
-      <div>Та {data?.username} хэрэглэгчийг устгах гэж байна.</div>
+      <div>Та {data?.name} блогын ангилалыг устгах гэж байна.</div>
     </ModalForm>
   );
 };

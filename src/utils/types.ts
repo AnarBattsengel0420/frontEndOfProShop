@@ -6,3 +6,8 @@ export interface AntdFile {
   url: any;
   originFileObj?: File;
 }
+
+export enum RoleType {
+  ADMIN = "admin",
+  USER = "user",
+}
