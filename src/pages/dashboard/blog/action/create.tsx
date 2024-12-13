@@ -1,77 +1,57 @@
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import {
-  Bold,
-  Essentials,
-  Heading,
-  Indent,
-  IndentBlock,
-  Italic,
-  Link,
-  List,
-  MediaEmbed,
-  Paragraph,
-  Table,
-  Undo,
-  FontFamily,
-  FontSize,
-  ClassicEditor,
-} from "ckeditor5";
-
-import "ckeditor5/ckeditor5.css";
-import { useState } from "react";
+import React, { useState } from "react";
+import { Editor } from "@tinymce/tinymce-react";
 
 const BlogCreate: React.FC = () => {
   const [blog, setBlog] = useState<string>("");
+
+  const tinymceOptions = {
+    relative_urls: false,
+    height: 300,
+    plugins: [
+      "advlist",
+      "autolink",
+      "lists",
+      "link",
+      "image",
+      "charmap",
+      "preview",
+      "anchor",
+      "searchreplace",
+      "wordcount",
+      "visualblocks",
+      "visualchars",
+      "code",
+      "fullscreen",
+      "insertdatetime",
+      "media",
+      "nonbreaking",
+      "table",
+      "contextmenu",
+      "directionality",
+      "emoticons",
+      "paste",
+      "textcolor",
+      "help",
+    ],
+    toolbar:
+      "undo redo | styleselect | bold italic backcolor | " +
+      "alignleft aligncenter alignright alignjustify | " +
+      "bullist numlist outdent indent | removeformat | " +
+      "link image media fullscreen | forecolor backcolor emoticons",
+    fontsize_formats: "8pt 10pt 12pt 14pt 18pt 24pt 36pt",
+  };
+
   return (
     <div>
-      <CKEditor
-        editor={ClassicEditor}
-        onChange={(_, editor) => {
-          const data = editor.getData();
-          setBlog(data);
-        }}
-        config={{
-          toolbar: [
-            "undo",
-            "redo",
-            "|",
-            "heading",
-            "|",
-            "bold",
-            "italic",
-            "|",
-            "link",
-            "insertTable",
-            "mediaEmbed",
-            "|",
-            "bulletedList",
-            "numberedList",
-            "indent",
-            "outdent",
-            "fontFamily",
-            "fontSize",
-          ],
-          plugins: [
-            Bold,
-            Essentials,
-            Heading,
-            Indent,
-            IndentBlock,
-            Italic,
-            Link,
-            List,
-            MediaEmbed,
-            Paragraph,
-            Table,
-            Undo,
-            FontFamily,
-            FontSize,
-          ],
-          initialData: "<h1>Hello from CKEditor 5!</h1>",
+      <Editor
+        apiKey={import.meta.env.VITE_EDITOR_API_KEY}
+        init={tinymceOptions}
+        onEditorChange={(content) => {
+          console.log(content);
+          setBlog(content);
         }}
       />
       <div className="mt-5">
-        <h1>Content</h1>
         <div dangerouslySetInnerHTML={{ __html: blog }} />
       </div>
     </div>
