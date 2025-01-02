@@ -3,7 +3,7 @@ import { Editor } from "@tinymce/tinymce-react";
 
 const BlogCreate: React.FC = () => {
   const [blog, setBlog] = useState<string>("");
-
+  console.log(blog, "jjjjj");
   const tinymceOptions = {
     relative_urls: false,
     height: 300,
@@ -46,7 +46,7 @@ const BlogCreate: React.FC = () => {
       <Editor
         apiKey={import.meta.env.VITE_EDITOR_API_KEY}
         init={tinymceOptions}
-        onEditorChange={(content) => {
+        onEditorChange={(content: string) => {
           console.log(content);
           setBlog(content);
         }}

@@ -11,6 +11,7 @@ import { Button, Col, notification, Row } from "antd";
 import file from "api/file";
 import users from "api/users";
 import moment from "moment";
+import { GenderType } from "utils/types";
 
 type CreateUserProps = {
   open: boolean;
@@ -287,11 +288,11 @@ export const CreateUser: React.FC<CreateUserProps> = ({
             options={[
               {
                 label: "Эр",
-                value: 0,
+                value: GenderType.MALE,
               },
               {
                 label: "Эм",
-                value: 1,
+                value: GenderType.FEMALE,
               },
             ]}
           />

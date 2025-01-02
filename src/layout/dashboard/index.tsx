@@ -20,7 +20,6 @@ const Logo = () => {
 const DashboardLayout: React.FC = () => {
   const [user, dispatch] = useContext(AuthContext);
   const location = useLocation();
-  console.log(user, "Kkkk");
   if (!user?.authorized) {
     return <Navigate to="/auth/login" />;
   }
