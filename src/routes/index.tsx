@@ -1,11 +1,9 @@
 import { PageLoading } from "@ant-design/pro-layout";
 import { ErrorBoundary } from "@ant-design/pro-utils";
 import { useAuthContext } from "hook/useAuthContext";
-import AuthLayout from "layout/auth";
 import DashboardLayout from "layout/dashboard";
 import { Suspense } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-import { authRoutes } from "./auth";
 import { dashboardRoutes } from "./dashboard";
 
 const MainRoutes: React.FC = () => {
@@ -20,14 +18,14 @@ const MainRoutes: React.FC = () => {
     },
   ];
 
-  if (!user?.authorized) {
-    routes.push({
-      key: "auth",
-      path: "/auth",
-      element: <AuthLayout />,
-      children: authRoutes,
-    });
-  }
+  // if (!user?.authorized) {
+  //   routes.push({
+  //     key: "auth",
+  //     path: "/auth",
+  //     element: <AuthLayout />,
+  //     children: authRoutes,
+  //   });
+  // }
 
   return (
     <Routes>
@@ -61,7 +59,8 @@ const MainRoutes: React.FC = () => {
           user?.authorized ? (
             <Navigate to="dashboard/dashboard" />
           ) : (
-            <Navigate to="auth/login" />
+            // <Navigate to="auth/login" />
+            <Navigate to="dashboard/dashboard" />
           )
         }
       />

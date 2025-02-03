@@ -10,12 +10,12 @@ import {
 } from "./type";
 
 export const AuthContext = createContext<AuthContextType>([
-  { authorized: false, init: false, user: null },
+  { authorized: true, init: false, user: null },
   () => {},
 ]);
 
 const initialState = {
-  authorized: false,
+  authorized: true,
   init: false,
   user: undefined,
 };

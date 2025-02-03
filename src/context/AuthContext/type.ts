@@ -5,7 +5,7 @@ export type AuthContextType = [DataType, React.Dispatch<any>];
 export interface DataType {
   authorized: boolean;
   init: boolean;
-  user: User;
+  user: any;
 }
 
 export interface User {
