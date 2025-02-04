@@ -1,13 +1,13 @@
 import ProLayout from "@ant-design/pro-layout";
 import { Avatar } from "antd";
 import auth from "api/auth";
+import file from "api/file";
 import { AuthContext } from "context/AuthContext";
 import { AuthActionTypes } from "context/AuthContext/type";
 import { useContext } from "react";
-import { Link, Navigate, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import { BookOpen01, Logout01 } from "untitledui-js-base";
 import menuData from "./menu";
-import file from "api/file";
 
 const Logo = () => {
   return (
@@ -20,9 +20,9 @@ const Logo = () => {
 const DashboardLayout: React.FC = () => {
   const [user, dispatch] = useContext(AuthContext);
   const location = useLocation();
-  if (!user?.authorized) {
-    return <Navigate to="/auth/login" />;
-  }
+  // if (!user?.authorized) {
+  //   return <Navigate to="/auth/login" />;
+  // }
   return (
     <ProLayout
       style={{
