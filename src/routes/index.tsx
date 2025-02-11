@@ -18,6 +18,12 @@ const MainRoutes: React.FC = () => {
       element: <DashboardLayout />,
       children: dashboardRoutes,
     },
+
+    {
+      key: "home",
+      path: "/",
+      element: <Navigate to={user?.authorized ? "/dashboard" : "/auth"} />,
+    }
   ];
 
   if (!user?.authorized) {

@@ -7,3 +7,6 @@
 img {
   max-width: max-content;
 } */
+.bg-gray {
+  background-color: gray;
+}
