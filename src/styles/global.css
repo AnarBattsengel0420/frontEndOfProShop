@@ -7,6 +7,64 @@
 img {
   max-width: max-content;
 } */
-.bg-gray {
-  background-color: gray;
+
+
+.ant-input {
+  color: white !important;
+  display: flex !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+
+.ant-table-cell {
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  padding: 2px !important;
+  padding-left: 12px !important;
+  padding-right: 12px !important;
+  height: 36px !important;
+}
+
+.ant-table-cell {
+  border-color: #E6F7FF !important;
+}
+
+.ant-switch-checked {
+  background-color: #1890ff !important;
+}
+/* Selected button styles */
+.ant-radio-button-wrapper-checked {
+  background-color: #e6f7ff !important;
+  color: #1890ff !important;
+  font-weight: bold;
+}
+
+/* Unselected button styles */
+.ant-radio-button-wrapper {
+  transition: all 0.3s ease;
+  color: #333;
+  background-color: white;
+}
+
+/* Smooth hover effect */
+.ant-radio-button-wrapper:hover {
+  color: #1890ff;
+}
+
+/* Fix rounded corners for first and last buttons */
+.ant-radio-group .ant-radio-button-wrapper:first-child {
+  border-radius: 8px 0 0 8px;
+}
+
+.ant-radio-group .ant-radio-button-wrapper:last-child {
+  border-radius: 0 8px 8px 0;
+}
+/* Remove black outline when clicked */
+.ant-radio-button-wrapper:focus-within {
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.border-line {
+  border-right: 4px solid black,
 }
