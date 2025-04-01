@@ -40,7 +40,10 @@ const Navbar: React.FC = () => {
                 <Link
                   to={item.path as string}
                   className="text-gray-400 hover:text-white"
-                  style={{ color: location.pathname === item.path ? 'white' : undefined }}
+                  style={{
+                    color:
+                      location.pathname === item.path ? "white" : undefined,
+                  }}
                 >
                   <div
                     style={{
@@ -66,13 +69,12 @@ const Navbar: React.FC = () => {
                     )}
                   </div>
                 </Link>
-
               </Menu.Item>
             ))}
           </Menu>
         </div>
-        <div className="flex items-center gap-4">       
-          <div className="flex items-center gap-4"> 
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4">
             <RealTimeClock />
             <Avatar
               size={50}

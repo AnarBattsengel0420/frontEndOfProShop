@@ -89,15 +89,15 @@ namespace file {
 
   export const getPaths = (
     searchVal: string,
-    uploadedItems: string[],
-    existingItems?: AntdFile[]
+    uploadedchildren: string[],
+    existingchildren?: AntdFile[]
   ) => {
-    for (let val of existingItems || []) {
+    for (let val of existingchildren || []) {
       if (val.uid.includes(searchVal)) {
-        uploadedItems.push(val.uid);
+        uploadedchildren.push(val.uid);
       }
     }
-    return uploadedItems;
+    return uploadedchildren;
   };
 }
 

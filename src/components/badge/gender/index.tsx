@@ -23,7 +23,7 @@ export const GenderBadge: React.FC<GenderBadgeProps> = ({ status }) => {
   }
   return (
     <span
-      className={`inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full text-xs font-medium truncate ${color}`}
+      className={`inline-flex children-center gap-2 px-2.5 py-0.5 rounded-full text-xs font-medium truncate ${color}`}
     >
       <div>{img}</div>
       <div>{text}</div>

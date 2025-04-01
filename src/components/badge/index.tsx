@@ -47,7 +47,7 @@ const IBadge: FC<Props> = ({ title, color }) => {
   }
   return (
     <span
-      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium truncate ${colorClass}`}
+      className={`inline-flex children-center px-2.5 py-0.5 rounded-full text-xs font-medium truncate ${colorClass}`}
     >
       {title}
     </span>

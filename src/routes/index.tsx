@@ -23,7 +23,7 @@ const MainRoutes: React.FC = () => {
       key: "home",
       path: "/",
       element: <Navigate to={user?.authorized ? "/dashboard" : "/auth"} />,
-    }
+    },
   ];
 
   if (!user?.authorized) {

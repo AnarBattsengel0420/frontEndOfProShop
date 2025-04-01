@@ -7,19 +7,16 @@ const menuData: MenuDataItem[] = [
   {
     path: "/dashboard/dashboard",
     name: "Талбайн Бүртгэл",
-    icon: <BarChartSquare02 size="28" />,
     children: [],
   },
   {
     path: "/dashboard/lavlah",
     name: "Лавлах Мэдээлэл",
-    icon: <Phone size="28" />,
     children: [],
   },
   {
     path: "/dashboard/tailan",
     name: "Тайлан",
-    icon: <Folder size="28" />,
     children: [],
   },
 ];

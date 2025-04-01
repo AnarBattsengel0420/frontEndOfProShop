@@ -5,7 +5,7 @@ export interface BaseResponse<T> {
 
 export interface PaginationResponse<T> {
   total: number;
-  items: Array<T>;
+  children: Array<T>;
 }
 
 export interface ProfileType {

@@ -37,7 +37,7 @@ const AuthPage: React.FC = () => {
   return (
     <div className="2xl:w-1/4 lg:w-1/3 md:w-1/2 w-full mx-5 bg-white p-10 rounded-3xl bg-opacity-30">
       <div className="flex flex-col gap-5">
-        <div className="flex items-center justify-center">
+        <div className="flex children-center justify-center">
           <BookOpen01
             size="80"
             className="text-blue-800 p-4 rounded-full border-2 border-solid border-blue-800 "

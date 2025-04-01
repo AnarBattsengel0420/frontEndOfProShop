@@ -8,7 +8,6 @@ img {
   max-width: max-content;
 } */
 
-
 .ant-input {
   color: white !important;
   display: flex !important;
@@ -26,17 +25,18 @@ img {
 }
 
 .ant-table-cell {
-  border-color: #E6F7FF !important;
+  border-color: #e6f7ff !important;
 }
 
 .ant-switch-checked {
-  background-color: #1890ff !important;
+  background-color: #1890ff !important; /*check ariin font color*/
 }
 /* Selected button styles */
 .ant-radio-button-wrapper-checked {
   background-color: #e6f7ff !important;
-  color: #1890ff !important;
+  color: #1890ff !important; /*huudasnii ariin font color*/
   font-weight: bold;
+  font-family: Arial;
 }
 
 /* Unselected button styles */
@@ -66,5 +66,5 @@ img {
 }
 
 .border-line {
-  border-right: 4px solid black,
+  border-right: 4px solid black;
 }

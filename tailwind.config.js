@@ -6,7 +6,7 @@ export default {
   },
   screens: {
     fontFamily: {
-      inter: ["Inter", "sans-serif"],
+      inter: ["Inter", "Arial"],
     },
     sm: "640px",
     // => @media (min-width: 640px) { ... }

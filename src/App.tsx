@@ -12,7 +12,7 @@ const App: React.FC = () => {
           theme={{
             token: {
               fontFamily: "Inter, sans-serif",
-              colorPrimary: "#212e42",
+              colorPrimary: "#1b71f5",
               colorLink: "#1890ff",
             },
             components: {},
